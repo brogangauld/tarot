@@ -5,7 +5,7 @@ interface UseReadingReturn {
   reading: string
   isLoading: boolean
   error: string | null
-  getReading: (cards: DrawnCard[], question?: string) => Promise<void>
+  getReading: (cards: DrawnCard[], question?: string, zodiacSign?: ZodiacSign) => Promise<void>
   reset: () => void
 }
 
@@ -14,7 +14,7 @@ export function useReading(): UseReadingReturn {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const getReading = useCallback(async (cards: DrawnCard[], question?: string) => {
+  const getReading = useCallback(async (cards: DrawnCard[], question?: string, zodiacSign?: ZodiacSign) => {
     setIsLoading(true)
     setError(null)
     setReading('')
@@ -23,11 +23,7 @@ export function useReading(): UseReadingReturn {
       const res = await fetch('/api/reading', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          cards,
-          question,
-          spreadType: 'three-card',
-        }),
+        body: JSON.stringify({ cards, question, spreadType: 'three-card', zodiacSign })
       })
 
       if (!res.ok) throw new Error('Failed to get reading')

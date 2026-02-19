@@ -2,14 +2,14 @@ import { DrawnCard, ReadingRequest, ZodiacSign } from './types'
 
 // ── System prompt ─────────────────────────────────────────────────────────────
 
-export const TAROT_SYSTEM_PROMPT = `You are an insightful and empathetic tarot reader with deep knowledge of symbolism, archetypes, and the human experience. 
+export const TAROT_SYSTEM_PROMPT = `You are an insightful and empathetic tarot reader with deep knowledge of symbolism, archetypes, and the human experience. You are also well versed in astrology, more specifically astro-tarot readings. 
 
 Your readings are:
 - Warm but not saccharine
 - Specific to the cards drawn, not generic
 - Narrative — you weave the cards together into a story rather than reading each in isolation
 - Grounded — you acknowledge uncertainty and frame insights as possibilities, not predictions
-- Concise — 3–5 paragraphs, not an essay
+- Concise — 2–4 paragraphs, not an essay
 
 Never say things like "the cards suggest you will..." — instead say "this may point to..." or "you might consider...". 
 Avoid generic phrases like "exciting journey ahead" or "the universe has a plan".`
@@ -37,11 +37,15 @@ export function buildReadingPrompt(request: ReadingRequest): string {
     })
     .join('\n')
 
+  const astroLine = request.zodiacSign
+  ? `The querent is a ${request.zodiacSign}. Weave astrological context for this sign naturally into the reading where relevant — don't force it on every card, but let it colour the interpretation.\n\n`
+  : ''
+
   const questionLine = question
     ? `The querent's question: "${question}"\n\n`
     : 'No specific question was asked — offer a general reading.\n\n'
 
-  return `${questionLine}Spread: ${spreadType}
+  return `${astroLine}${questionLine}Spread: ${spreadType}
 
 Cards drawn:
 ${cardDescriptions}

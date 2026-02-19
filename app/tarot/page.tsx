@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { drawCards } from '@/lib/tarot'
-import { DrawnCard } from '@/lib/types'
+import { DrawnCard, ZodiacSign } from '@/lib/types'
 import { useReading } from '@/hooks/useReading'
 import CardSpread from '@/components/CardSpread'
 
@@ -13,6 +13,7 @@ export default function TarotPage() {
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([])
   const [question, setQuestion] = useState('')
   const { reading, isLoading, error, getReading, reset } = useReading()
+  const [zodiacSign, setZodiacSign] = useState<ZodiacSign | undefined>(undefined)
 
   function handleDraw() {
     reset()
@@ -24,7 +25,7 @@ export default function TarotPage() {
   }
 
   async function handleGetReading() {
-    await getReading(drawnCards, question || undefined)
+    await getReading(drawnCards, question || undefined, zodiacSign)
   }
 
   function handleReset() {
@@ -32,6 +33,18 @@ export default function TarotPage() {
     setQuestion('')
     reset()
   }
+
+  function handleSignSelect(sign: ZodiacSign) {
+    setZodiacSign(sign)
+    localStorage.setItem('tarot-sign', sign)
+    reset()
+  }
+
+  // Load saved sign from localStorage (same one horoscope saves):
+  useEffect(() => {
+    const saved = localStorage.getItem('tarot-sign') as ZodiacSign | null
+    if (saved) setZodiacSign(saved)
+  }, [])
 
   return (
     // Page wrapper
@@ -52,6 +65,45 @@ export default function TarotPage() {
         Your Reading
       </h1>
 
+      <div>
+        <label style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9d8fa0', fontFamily: 'Georgia, serif' }}>
+          Your sign <span style={{ color: '#c8a96e' }}>(optional)</span>
+        </label>
+        <br />
+        <select
+          value={zodiacSign ?? ''}
+          onChange={e => handleSignSelect(e.target.value as ZodiacSign || undefined)}
+          style={{
+            marginTop: '0.5rem',
+            padding: '0.6rem 1rem',
+            background: '#fff8ec',
+            border: '1px solid #c8a96e',
+            borderRadius: 6,
+            fontSize: "1rem",
+            color: "#3a2e1e",
+            fontFamily: "Georgia, serif",
+            cursor: 'pointer',
+            width: '100%',
+          }}
+        >
+          <option value=''>Select a sign...</option>
+          <option value='aries'>♈ Aries</option>
+          <option value='taurus'>♉ Taurus</option>
+          <option value='gemini'>♊ Gemini</option>
+          <option value='cancer'>♋ Cancer</option>
+          <option value='leo'>♌ Leo</option>
+          <option value='virgo'>♍ Virgo</option>
+          <option value='libra'>♎ Libra</option>
+          <option value='scorpio'>♏ Scorpio</option>
+          <option value='sagittarius'>♐ Sagittarius</option>
+          <option value='capricorn'>♑ Capricorn</option>
+          <option value='aquarius'>♒ Aquarius</option>
+          <option value='pisces'>♓ Pisces</option>
+        </select>
+      </div>
+
+      <br/>
+
       {/* Question input */}
       <form
         onSubmit={(e) => {
@@ -61,15 +113,10 @@ export default function TarotPage() {
       >
         <div>
           <div style={{ margin: "0 0 0.2rem 0.25rem" }}>
-            <label htmlFor="question" style={{
-              color: "#3a2e1e",
-              fontFamily: "Georgia, serif",
-              fontSize: "0.75rem",
-              fontStyle: "italic"
-            }}
-            >
-              Optional
+            <label style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9d8fa0', fontFamily: 'Georgia, serif' }}>
+              Set an intention for your reading <span style={{ color: '#c8a96e' }}>(optional)</span>
             </label>
+            <br />
           </div>
           <input
             id="question"
@@ -94,22 +141,22 @@ export default function TarotPage() {
       </form>
       {/* Draw button */}
       {!drawnCards.length && (
-      <button onClick={handleDraw} style={{
-        background: "#8b6914",
-        color: "#fdf6e3",
-        border: "none",
-        padding: "0.75rem 2rem",
-        marginTop: "1rem",
-        marginBottom: "2rem",
-        borderRadius: 6,
-        fontSize: "0.8rem",
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
-        cursor: "pointer",
-        fontFamily: "Georgia, serif",
-      }}>
-        Draw 3 Cards
-      </button>
+        <button onClick={handleDraw} style={{
+          background: "#8b6914",
+          color: "#fdf6e3",
+          border: "none",
+          padding: "0.75rem 2rem",
+          marginTop: "1rem",
+          marginBottom: "2rem",
+          borderRadius: 6,
+          fontSize: "0.8rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          cursor: "pointer",
+          fontFamily: "Georgia, serif",
+        }}>
+          Draw 3 Cards
+        </button>
       )}
 
       <div style={{

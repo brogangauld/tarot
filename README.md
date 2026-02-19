@@ -12,24 +12,6 @@ A tarot reading + horoscope app powered by Claude (Anthropic).
 - **Anthropic SDK** (streaming responses)
 - **Vercel** (deployment)
 
-## Project Structure
-
-```
-app/
-  page.tsx                  ← Main UI (build your design here)
-  api/
-    reading/route.ts        ← Streams a tarot reading from Claude
-    horoscope/route.ts      ← Streams a horoscope from Claude
-
-lib/
-  types.ts                  ← Shared TypeScript types
-  tarot.ts                  ← Full 78-card deck data + drawCards()
-  prompts.ts                ← System prompts + prompt builders
-
-hooks/
-  useReading.ts             ← useReading() and useHoroscope() hooks
-```
-
 ## Getting Started
 
 ### 1. Install dependencies

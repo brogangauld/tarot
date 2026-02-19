@@ -70,12 +70,12 @@ function TarotCard({ card, dealDelay }: { card: DrawnCard, dealDelay: number }) 
                         borderRadius: 10,
                         transformStyle: "preserve-3d",
                         transform: flipped
-                            ? `rotateY(180deg)${card.isReversed ? " rotate(180deg)" : ""}`
+                            ? "rotateY(180deg)"
                             : "rotateY(0deg)",
                         transition: `transform ${FLIP_SPEED} cubic-bezier(0.4, 0.2, 0.2, 1), box-shadow 0.4s ease`,
                         boxShadow: hovered
-                            ? "0 8px 25px rgba(212, 175, 55, 0.35)"   // soft golden glow
-                            : "0 6px 18px rgba(0,0,0,0.25)"          // subtle depth
+                            ? "0 8px 25px rgba(212, 175, 55, 0.35)"    // soft golden glow
+                            : "0 6px 18px rgba(0,0,0,0.25)"            // subtle depth
                     }}
                 >
                     {/* ── BACK FACE ───────────────────────────── */}
@@ -100,7 +100,9 @@ function TarotCard({ card, dealDelay }: { card: DrawnCard, dealDelay: number }) 
                         inset: 0,
                         backfaceVisibility: "hidden",
                         WebkitBackfaceVisibility: "hidden",
-                        transform: "rotateY(180deg)",
+                        transform: card.isReversed
+                            ? "rotateY(180deg) rotate(180deg)"
+                            : "rotateY(180deg)",
                         borderRadius: 10,
                         overflow: "hidden",
                         background: "#f5e8c8",

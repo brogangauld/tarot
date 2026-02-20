@@ -52,11 +52,10 @@ In `app/api/reading/route.ts` and `app/api/horoscope/route.ts`, swap the model s
 - `claude-opus-4-6` — smartest, slower
 
 ### Change the tone
-Edit the system prompts in `lib/prompts.ts`.
+You can edit the system prompts in `lib/prompts.ts`.
 
-### Add card art
-In `app/page.tsx`, replace the 🃏 placeholder with your card component.
-You have `card.id`, `card.name`, `card.arcana`, `card.suit`, and `isReversed` available.
+### Card art 
+Card art is sourced from the public domain, using the Rider-Waite-Smith deck from [archive.org](https://archive.org/details/rider-waite-tarot)
 
 ### Fill in minor arcana meanings
 In `lib/tarot.ts`, the minor arcana 2–10 have placeholder meanings.
@@ -74,11 +73,14 @@ A simple option: `npm install @upstash/ratelimit @upstash/redis`
 
 ------------
 
-Use: Value
-Page background: #fdf6e3
-Surface / input: #fff8ec
-Card art: #e8d5a3
-Border / accent: #c8a96e
-Primary button: #8b6914
-Body text: #3a2e1e
-Muted text: #9d8fa0
+## Colour Palette
+
+| Use                   | Value         |
+| --------              | -------       |
+| Page background:      | #fdf6e3     |
+| Surface / input:      | #fff8ec     |
+| Card art:             | #e8d5a3     |
+| Border / accent:      | #c8a96e     |
+| Primary button:       | #8b6914     |
+| Body text:            | #3a2e1e     |
+| Muted text:           | #9d8fa0     |

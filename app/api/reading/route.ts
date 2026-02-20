@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   // Stream the response back to the client
   const stream = anthropic.messages.stream({
-    model: 'claude-opus-4-6',
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 1024,
     system: TAROT_SYSTEM_PROMPT,
     messages: [{ role: 'user', content: prompt }],

@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   const prompt = buildHoroscopePrompt(sign, period)
 
   const stream = anthropic.messages.stream({
-    model: 'claude-opus-4-6',
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 512,
     system: HOROSCOPE_SYSTEM_PROMPT,
     messages: [{ role: 'user', content: prompt }],
